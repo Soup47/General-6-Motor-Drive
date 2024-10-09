@@ -55,7 +55,7 @@ void control (void * ignore) {
 
 // auton function
 
-void moveBase (double p_targL, double p_targR, double p_maxPow, double p_kp, double p_timeout) {
+void moveBase (double p_targL, double p_targR, double p_maxPow, double p_kp, double p_timeout, double autondelay) {
 
     targL = p_targL;
     targR = p_targR;
@@ -93,4 +93,6 @@ void moveBase (double p_targL, double p_targR, double p_maxPow, double p_kp, dou
 
     ML.move(0);
     MR.move(0);
+
+    delay(autondelay);
 }
