@@ -6,6 +6,6 @@
 
 double abscap(double val, double cap);
 void control(void *ignore);
-void moveBase(double p_Left_Target, double p_Right_Target, double p_Max_Power = 100, double p_KP = DEFAULTKP, double p_timeout, double autondelay = 0);
+void moveBase(double p_Left_Target, double p_Right_Target, double p_Max_Power = 100, double p_KP = DEFAULTKP, double p_timeout = 200, double autondelay = 0);
 
 #endif

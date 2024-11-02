@@ -62,22 +62,46 @@ void opcontrol()
 
 	// VARIABLES INITIALIZATION:
 	double Left_Power = 0, Right_Power = 0;
+	bool Side_Swap = false;
+	bool Side_Swap_Toggle = false;
+	static bool Side_Swap_Toggle_Last = false;
 
 	// MAINLOOP:
 	while (true)
 	{
-
 		// INPUTS:
 		Left_Power = master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
 		Right_Power = master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
+		Side_Swap_Toggle = master.get_digital(E_CONTROLLER_DIGITAL_X);
 
-		// HARDWARE CONTROL:
-		FL.move(Left_Power);
-		BL.move(Left_Power);
-		FR.move(Right_Power);
-		BR.move(Right_Power);
-		ML.move(Left_Power);
-		MR.move(Right_Power);
+		if (Side_Swap_Toggle && !Side_Swap_Toggle_Last)
+		{
+			Side_Swap = !Side_Swap;
+		}
+
+		if (Side_Swap)
+		{
+			// HARDWARE CONTROL:
+			FL.move(Left_Power);
+			BL.move(Left_Power);
+			FR.move(Right_Power);
+			BR.move(Right_Power);
+			ML.move(Left_Power);
+			MR.move(Right_Power);
+		}
+		else
+		{
+			// HARDWARE CONTROL:
+			FL.move(Right_Power);
+			BL.move(Right_Power);
+			FR.move(Left_Power);
+			BR.move(Left_Power);
+			ML.move(Right_Power);
+			MR.move(Left_Power);
+		}
+
+		// Update the toggle state
+		Side_Swap_Toggle_Last = Side_Swap_Toggle;
 
 		// MAINLOOP DELAY:
 		delay(5); // [Adjust to increase reaction speed]
