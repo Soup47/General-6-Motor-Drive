@@ -25,7 +25,6 @@ void initialize()
 
 	// --- PID INITIALIZATION:
 	Controller master(E_CONTROLLER_MASTER);
-	Task controlControl(control, (void *)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "My Task");
 
 	// pinMode(1, OUTPUT);
 	// digitalWrite(1, LOW);
@@ -64,7 +63,6 @@ void opcontrol()
 	double Left_Power = 0, Right_Power = 0;
 	bool Side_Swap = false;
 	bool Side_Swap_Toggle = false;
-	static bool Side_Swap_Toggle_Last = false;
 
 	// MAINLOOP:
 	while (true)
@@ -72,14 +70,14 @@ void opcontrol()
 		// INPUTS:
 		Left_Power = master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
 		Right_Power = master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
-		Side_Swap_Toggle = master.get_digital(E_CONTROLLER_DIGITAL_X);
+		Side_Swap_Toggle = master.get_digital_new_press(E_CONTROLLER_DIGITAL_X);
 
-		if (Side_Swap_Toggle && !Side_Swap_Toggle_Last)
+		if (Side_Swap_Toggle)
 		{
 			Side_Swap = !Side_Swap;
 		}
 
-		if (Side_Swap)
+		if (Side_Swap = false)
 		{
 			// HARDWARE CONTROL:
 			FL.move(Left_Power);
@@ -99,9 +97,6 @@ void opcontrol()
 			ML.move(Right_Power);
 			MR.move(Left_Power);
 		}
-
-		// Update the toggle state
-		Side_Swap_Toggle_Last = Side_Swap_Toggle;
 
 		// MAINLOOP DELAY:
 		delay(5); // [Adjust to increase reaction speed]
